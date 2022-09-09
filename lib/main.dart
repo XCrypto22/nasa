@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nasa/screens/home.dart';
 
 import 'screens/splash_screen.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),
-        home: const SplashScreen(),
+        home: const HomePage(),
       ),
       designSize: const Size(375, 812),
     );
