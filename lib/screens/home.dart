@@ -132,15 +132,15 @@ const Divider(
                           Icon(Icons.search)
                         ],
                       ),
-                    const SettingItem(title: "Hello", leadingIcon: "./assets/images/atemis.jpg",),
+                    const SettingItem(title: "A Stormy Stellar Nursery", leadingIcon: 'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/gsfc_20171208_archive_e000226_orig.jpg',),
         
                     const SizedBox(height: 20,),
         
-                    const SettingItem(title: "Hello", leadingIcon: "./assets/images/sat.png",),
+                    const SettingItem(title: "NASA’s Perseverance Rover Investigates Geologically Rich Mars Terrain", leadingIcon: "https://www.nasa.gov/sites/default/files/styles/full_width/public/thumbnails/image/shuster_2_screenshot_skinner.png?itok=x-o2u6Y-",),
         
                     const SizedBox(height: 20,),
         
-                    const SettingItem(title: "Hello", leadingIcon: "./assets/images/station.jpg",),
+                    const SettingItem(title: "25 Years of Continuous Robotic Mars Exploration – From Pathfinder to Perseverance", leadingIcon: "https://www.nasa.gov/sites/default/files/styles/full_width/public/thumbnails/image/mars_exploration_30_perseverance_sol_46_apr_2021.jpg?itok=o9qVXmTH",),
         
                     const SizedBox(height: 15,),
 
@@ -176,13 +176,20 @@ const Divider(
 
                     const Padding(
                             padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
-                            child: Text("Other Space News", style: TextStyle(color: labelColor, fontWeight: FontWeight.w600, fontSize: 24,)),
+                            child: Text("Upcoming Mission Events", style: TextStyle(color: labelColor, fontWeight: FontWeight.w600, fontSize: 24,)),
                           ),
                     
                     const SizedBox(height: 20,),
 
                     getNews(),
 
+                    const SizedBox(height: 30,),
+
+                    const Padding(
+                            padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
+                            child: Text("Watch Videos", style: TextStyle(color: labelColor, fontWeight: FontWeight.w600, fontSize: 24,)),
+                          ),
+                    
                     const SizedBox(height: 20,),
 
                     moreNews(),
@@ -192,6 +199,22 @@ const Divider(
                     moreNews(),
 
                     const SizedBox(height: 20,),
+
+                    Center(
+                    child: Column(
+                      children: [
+                        const Icon(Icons.arrow_drop_up),
+                        TextButton(
+              onPressed: null,
+              child: const Text("Show more"),
+              style: TextButton.styleFrom(
+                        padding: const EdgeInsets.all(15),
+                        primary: Colors.blue,
+                        textStyle: const TextStyle(fontSize: 18, color: Colors.red)),
+            ),
+                      ],
+                    ),
+                  ),
 
                     
                   ],
@@ -244,74 +267,56 @@ const Divider(
 
   Widget moreNews(){
     return // Generated code for this Row Widget...
-Padding(
-  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 1),
-  child: Row(
-    mainAxisSize: MainAxisSize.max,
+Container(
+  padding: const EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
+  child:   Row(
+  
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  
     children: [
+  
       ClipRRect(
+  
         borderRadius: const BorderRadius.only(
+  
           bottomLeft: Radius.circular(8),
+  
           bottomRight: Radius.circular(0),
+  
           topLeft: Radius.circular(8),
+  
           topRight: Radius.circular(0),
+  
         ),
+  
         child: Image.network(
-          'https://images.unsplash.com/photo-1623199648374-a4ff4e14e719?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2620&q=80',
+  
+          'https://i.ytimg.com/vi/xpO4_IJINAM/sddefault.jpg',
+  
           width: 100,
+  
           height: 100,
+  
           fit: BoxFit.cover,
+  
         ),
+  
       ),
-      Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Title',
-              style: TextStyle(
-                fontFamily: 'Outfit',
-                    color: Color(0xFF0F1113),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-              )
+
+      SizedBox(width: 20,),
+  
+      Expanded(
+  
+              child: Text(
+  
+                'Astounding View of NASA’s Artemis I Rocket at Rollout', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500 ),
+  
+              ),
+  
             ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: const [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                  child: Text(
-                    'Subtitle',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                          color: Color(0xFF57636C),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                    )
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(4, 4, 0, 0),
-                  child: Text(
-                    'subtext',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                          color: Color(0xFF0F1113),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                    )
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+  
     ],
+  
   ),
 );
 

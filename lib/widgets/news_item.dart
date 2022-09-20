@@ -87,7 +87,7 @@ class _NewsState extends State<News>{
   
                             child: Image.network(
   
-                              'https://images.unsplash.com/photo-1590556409324-aa1d726e5c3c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80',
+                              'https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/iss067e029147.jpg',
   
                               width: 100,
   
@@ -109,7 +109,7 @@ class _NewsState extends State<News>{
   
                         child: Text(
   
-                          'The Key to Starting Every Day Right',
+                          'International Space Station Expedition 68 Soyuz Launch',
   
                           style:
   
@@ -145,7 +145,7 @@ class _NewsState extends State<News>{
   
                               child: Text(
   
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.',
+                                'September 21, 2022',
   
                                 style: TextStyle(
   

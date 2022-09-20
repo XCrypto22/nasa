@@ -83,6 +83,20 @@ class _DrawerPageState extends State<DrawerPage> {
                             });
                           }
                       ),
+
+                      ListTile(leading: Icon(Icons.web),
+                      title: Text("NASA Website",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400
+                      ),),
+                          onTap:(){
+                            setState((){
+                              text = "settings pressed";
+                            });
+                          }
+                      ),
                       
                       ListTile(leading: Icon(Icons.settings),
                       title: Text("Settings",

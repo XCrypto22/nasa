@@ -56,7 +56,7 @@ class SettingItem extends StatelessWidget {
               SizedBox(width: 20,),
               Expanded(
                 child: Text(
-                  title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500 ),
+                  title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500 ),
                 ),
               ),
               Icon(

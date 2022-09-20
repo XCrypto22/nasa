@@ -44,13 +44,15 @@ class PopularItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("nasa", maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
+                  Container(
+                    width: 200,
+                    child: Text("A Bird's-Eye View of the Vehicle Assembly Base", maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),)),
                   SizedBox(height: 8,),
                   Row(
                     children: [
                       //SvgPicture.asset("assets/icons/tag-dollar.svg", width: 17, height: 17, color: Colors.white,),
                       SizedBox(width: 5,),
-                      Text("0.00", style: TextStyle(fontSize: 15, color: Colors.white,),),
+                      Text("NASA/Keegan Barber", style: TextStyle(fontSize: 15, color: Colors.white,),),
                     ],
                   ),
                 ],
