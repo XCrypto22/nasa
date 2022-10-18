@@ -12,6 +12,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:shimmer/shimmer.dart';
+import 'package:lottie/lottie.dart';
 
 import '../theme/color.dart';
 import '../widgets/gallery_item.dart';
@@ -252,34 +253,49 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
 
+                      Divider(),
+
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Gallery",
+                                style: TextStyle(
+                                  color: labelColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Lottie.network(
+                                  'https://assets6.lottiefiles.com/private_files/lf30_nzsbtndw.json',
+                                  height: 50),
+                            )
+                          ],
+                        ),
+                      ),
+
                       const SizedBox(
                         height: 10,
-                      ),
-
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
-                        child: Text("Gallery",
-                            style: TextStyle(
-                              color: labelColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                            )),
-                      ),
-
-                      const SizedBox(
-                        height: 20,
                       ),
 
                       getPopulars(),
 
                       const SizedBox(
-                        height: 30,
+                        height: 10,
+                      ),
+
+                      Divider(),
+
+                      const SizedBox(
+                        height: 10,
                       ),
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
+                        padding: EdgeInsets.fromLTRB(15, 15, 15, 10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Upcoming Missions",
                                 style: TextStyle(
@@ -288,12 +304,10 @@ class _HomePageState extends State<HomePage> {
                                   fontSize: 20,
                                 )),
                             Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Icon(
-                                Icons.rocket_launch,
-                                color: Colors.red,
-                              ),
-                            )
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Lottie.network(
+                                    'https://assets7.lottiefiles.com/packages/lf20_ii6qdbgz.json',
+                                    height: 60))
                           ],
                         ),
                       ),
