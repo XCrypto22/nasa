@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
+import 'package:animations/animations.dart';
 import 'package:nasa/widgets/drawer_config.dart';
 import 'package:nasa/widgets/news_item.dart';
 import 'package:nasa/widgets/story_card.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:intl/intl.dart';
+import 'package:nasa/widgets/video_card.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:shimmer/shimmer.dart';
 import 'package:lottie/lottie.dart';
@@ -26,16 +28,82 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<NasaNews> newsData = [];
-  String server = '10.0.2.2';
+  List<NasaPhotos> galleryData = [];
+  List<NasaMissions> missionData = [];
+  List<Widget> missionCards = [];
+  List<Widget> photoCards = [];
+  String server = '10.0.2.2'; //10.0.2.2 / 192.168.1.149
+
   getNasaNews() async {
     try {
       final url = Uri.parse('http://$server:5000/data');
+      final img_url = Uri.parse('http://$server:5000/gallery');
+      final msn_url = Uri.parse('http://$server:5000/missions');
+
       var response = await http.get(url);
+      var img_response = await http.get(img_url);
+      var msn_response = await http.get(msn_url);
+
       var jsonData = jsonDecode(response.body);
+      var img_jsonData = jsonDecode(img_response.body);
+      var msn_jsonData = jsonDecode(msn_response.body);
 
       for (var n in jsonData) {
         NasaNews nasaNews = NasaNews(n['title'], n['image'], n['uri']);
         newsData.add(nasaNews);
+      }
+
+      for (var n in img_jsonData) {
+        NasaPhotos nasaPhotos = NasaPhotos(n['title'], n['image'],
+            n['description'], n['photographer'], n['date']);
+        galleryData.add(nasaPhotos);
+      }
+
+      for (var n in msn_jsonData) {
+        NasaMissions nasaMissions = NasaMissions(
+            n['title'], n['image'], n['details'], n['date'], n['time_zone']);
+        missionData.add(nasaMissions);
+      }
+
+      for (var n in missionData) {
+        missionCards.add(News(
+            title: n.title,
+            image: n.image,
+            details: n.details,
+            date: n.date,
+            time_zone: n.time_zone,
+            onTap: () {
+              showModal(
+                  configuration: const FadeScaleTransitionConfiguration(
+                    transitionDuration: Duration(milliseconds: 500),
+                  ),
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                        scrollable: true,
+                        title: Text(n.title),
+                        content: Text(
+                            '${n.details}\n\nTime Zone: ${n.time_zone}\nDate: ${n.date}'),
+                      ));
+            }));
+      }
+
+      for (var n in galleryData) {
+        photoCards.add(PopularItem(
+            image_url: n.image,
+            sub_title: n.title,
+            onTap: () {
+              showModal(
+                  configuration: const FadeScaleTransitionConfiguration(
+                    transitionDuration: Duration(milliseconds: 500),
+                  ),
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                        scrollable: true,
+                        title: Text(n.title),
+                        content: Text(
+                            '${n.description}\n\nCredit: ${n.photographer}\nDate Created: ${n.date}'),
+                      ));
+            }));
       }
       return newsData;
     } catch (e) {}
@@ -93,7 +161,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       Column(
-        children: const [
+        children: [
           SizedBox(
             height: 30,
           ),
@@ -280,7 +348,7 @@ class _HomePageState extends State<HomePage> {
                         height: 10,
                       ),
 
-                      getPopulars(),
+                      photoCards.isNotEmpty ? getPopulars() : pics(),
 
                       const SizedBox(
                         height: 10,
@@ -324,7 +392,7 @@ class _HomePageState extends State<HomePage> {
 
                       const Padding(
                         padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
-                        child: Text("Watch Videos",
+                        child: Text("Video of the Day",
                             style: TextStyle(
                               color: labelColor,
                               fontWeight: FontWeight.w600,
@@ -337,22 +405,8 @@ class _HomePageState extends State<HomePage> {
                       ),
 
                       //moreNews(),
-                      Shimmer.fromColors(
-                          baseColor: Colors.grey[400]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: ListView.separated(
-                            padding: EdgeInsets.all(0),
-                            shrinkWrap: true,
-                            physics: const ClampingScrollPhysics(),
-                            itemCount: 3,
-                            itemBuilder: (_, __) => Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
-                              child: placeHolderRow(),
-                            ),
-                            separatorBuilder: (_, __) => const SizedBox(
-                              height: 2,
-                            ),
-                          )),
+
+                      VideoPlayerCard(),
 
                       const SizedBox(
                         height: 15,
@@ -416,7 +470,87 @@ class _HomePageState extends State<HomePage> {
         ],
       );
 
-  getPopulars() {
+  photoList() {
+    FutureBuilder(
+        future: getNasaNews(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.data == null) {
+            return ListView.separated(
+              padding: EdgeInsets.all(0),
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              itemCount: 3,
+              itemBuilder: (_, __) => Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: PopularItem(
+                  image_url:
+                      'https://images.pexels.com/photos/816608/pexels-photo-816608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                  sub_title: 'Hello World',
+                ),
+              ),
+              separatorBuilder: (_, __) => const SizedBox(
+                height: 2,
+              ),
+            );
+          } else {
+            return ListView.builder(
+              padding: EdgeInsets.all(0),
+              shrinkWrap: true,
+              itemCount: snapshot.data.length < 10 ? snapshot.data.length : 10,
+              itemBuilder: (context, i) {
+                return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: PopularItem(
+                      image_url: snapshot.data[i].image,
+                      sub_title: snapshot.data[i].title,
+                    ));
+              },
+            );
+          }
+        });
+  }
+
+  getPhotoList() {
+    FutureBuilder(
+        future: getNasaNews(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.data == null) {
+            return ListView.separated(
+              padding: EdgeInsets.all(0),
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              itemCount: 3,
+              itemBuilder: (_, __) => Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: PopularItem(
+                  image_url:
+                      'https://images.pexels.com/photos/816608/pexels-photo-816608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                  sub_title: 'Hello World',
+                ),
+              ),
+              separatorBuilder: (_, __) => const SizedBox(
+                height: 2,
+              ),
+            );
+          } else {
+            return ListView.builder(
+              padding: EdgeInsets.all(0),
+              shrinkWrap: true,
+              itemCount: snapshot.data.length < 10 ? snapshot.data.length : 10,
+              itemBuilder: (context, i) {
+                return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: PopularItem(
+                      image_url: snapshot.data[i].image,
+                      sub_title: snapshot.data[i].title,
+                    ));
+              },
+            );
+          }
+        });
+  }
+
+  pics() {
     return CarouselSlider(
         options: CarouselOptions(
           height: 370,
@@ -427,31 +561,38 @@ class _HomePageState extends State<HomePage> {
         items: [
           PopularItem(
             image_url:
-                "https://images.pexels.com/photos/1274260/pexels-photo-1274260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            sub_title: "A Bird's-Eye View of the Vehicle Assembly Base",
+                'https://images.pexels.com/photos/816608/pexels-photo-816608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            sub_title: 'NASA World',
           ),
           PopularItem(
             image_url:
-                "https://images.pexels.com/photos/1274260/pexels-photo-1274260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            sub_title: "A Bird's-Eye View of the Vehicle Assembly Base",
+                'https://images.pexels.com/photos/816608/pexels-photo-816608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            sub_title: 'NASA World',
           ),
           PopularItem(
             image_url:
-                "https://images.pexels.com/photos/1274260/pexels-photo-1274260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            sub_title: "A Bird's-Eye View of the Vehicle Assembly Base",
+                'https://images.pexels.com/photos/816608/pexels-photo-816608.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            sub_title: 'NASA World',
           ),
         ]);
+  }
+
+  getPopulars() {
+    return CarouselSlider(
+        options: CarouselOptions(
+          height: 370,
+          enlargeCenterPage: true,
+          disableCenter: true,
+          viewportFraction: .75,
+        ),
+        items: photoCards);
   }
 
   Widget getNews() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [
-          News(),
-          News(),
-          News(),
-        ],
+        children: missionCards,
       ),
     );
   }
@@ -545,4 +686,15 @@ class _HomePageState extends State<HomePage> {
 class NasaNews {
   final String title, image, uri;
   NasaNews(this.title, this.image, this.uri);
+}
+
+class NasaPhotos {
+  final String title, image, description, photographer, date;
+  NasaPhotos(
+      this.title, this.image, this.description, this.photographer, this.date);
+}
+
+class NasaMissions {
+  final String title, image, details, date, time_zone;
+  NasaMissions(this.title, this.image, this.details, this.date, this.time_zone);
 }
